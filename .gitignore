@@ -28,6 +28,7 @@ screenshots/
 
 # Logs and databases #
 ######################
+data/
 *.log
 *.sql
 *.sqlite

@@ -1,18 +1,14 @@
 # settings/config.py
 
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy_playwright.middleware.ScrapyPlaywrightDownloadHandler': 800,
-}
+import os
 
-TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+class Config:
+    def __init__(self):
+        self.FIRE_CRAWL_API_KEY = os.getenv("FIRE_CRAWL_API_KEY")
+        self.OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-PLAYWRIGHT_BROWSER_TYPE = 'chromium'
-PLAYWRIGHT_LAUNCH_OPTIONS = {
-    'headless': True,
-    'args': [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-blink-features=AutomationControlled'
-    ]
-}
+        self.DEBUG_STATE_CONSOLE = True
+        self.DEBUG_STATE_FILE = False
+
+
+config = Config()
