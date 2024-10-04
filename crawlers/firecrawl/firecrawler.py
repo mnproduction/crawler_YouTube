@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 import os
 
 from firecrawl import FirecrawlApp
@@ -37,7 +36,7 @@ def format_data(raw_data, fields=None):
     client = OpenAI(api_key=config.OPENAI_API_KEY)
 
     if fields is None:
-        fields = ['Address', 'Real Estate Agency', 'Price', 'Beds', 'Baths', 'Sqft', 'Home Type', 'Listing Age', 'Picture of home URL', 'Listing URL']
+        fields = ['place', 'trend', 'popularity growth']
 
     system_message = f"""You are an intelligent text extraction and conversion assistant. Your task is to extract structured information from the given text and convert it into JSON format. The JSON should contain only the structured data, extracted from the text, with no additional commentary, explanations, or extraneous information. You could encounter cases where you cant find the data for a particular field, or the data will be in foreign language. Please process the following text and provide the output in pure JSON format with no words before or after the JSON:"""
 
@@ -84,16 +83,4 @@ def save_formatted_data(formatted_data, timestamp, output_folder='data/firecrawl
     df.to_excel(excel_output_path, index=False)
     logger.info(f"Formatted data saved to {excel_output_path}")
 
-def main():
-    url = 'https://www.zillow.com/homes/for_rent/1-_rb/'
-    try:
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        raw_data = scrape_data(url)
-        save_raw_data(raw_data, timestamp)
-        formatted_data = format_data(raw_data)
-        save_formatted_data(formatted_data, timestamp)
-    except Exception as e:
-        logger.error(f"Error: {e}")
 
-if __name__ == "__main__":
-    main()
